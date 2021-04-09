@@ -1,6 +1,8 @@
 import React from 'react';
 import Joi from 'joi-browser'
 import Form from '../common/form';
+import auth from '../../services/authService';
+import { toast } from 'react-toastify';
 
 class LoginForm extends Form {
     state = { 
@@ -10,16 +12,27 @@ class LoginForm extends Form {
      }
 
      schema = {
-         username:Joi.string().required().label('Username'),
+         username:Joi.string().required().email().label('Username'),
          password:Joi.string().required().label('Password'),
 
      };
 
     
 
-    doSubmit = () =>{
+    doSubmit = async() =>{
         //call the server
-        console.log("success")
+        try {
+            const {data} = this.state
+            await auth.login(data.username, data.password)
+            window.location = "/"
+        } catch (ex) {
+            if(ex.response && ex.response.status === 400){
+                toast.error(ex.response.data);
+                const {errors} = this.state;
+                errors.username = ex.response.data;
+                this.setState({errors})
+            }
+        }
     }
       
 
@@ -27,8 +40,8 @@ class LoginForm extends Form {
         return ( <div className="container">
             <h1>Login</h1>
             <form onSubmit={this.handleSubmit }>
-            {this.renderInput("username", "text", "Username")}
-            {this.renderInput("password", "password", "Password")}            
+            {this.renderInput("username", "Username")}
+            {this.renderInput("password", "Password", "password")}            
 
             {this.renderButton('Login')}
             

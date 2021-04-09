@@ -2,6 +2,8 @@ import axios from "axios"
 import {toast} from 'react-toastify'
 import logService from "./logService";
 
+// eslint-disable-next-line
+
 
 axios.interceptors.response.use(null, error => {
   const expectedError = error.response && error.response.status >= 400
