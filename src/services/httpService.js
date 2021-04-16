@@ -2,7 +2,12 @@ import axios from "axios"
 import {toast} from 'react-toastify'
 import logService from "./logService";
 
-// eslint-disable-next-line
+
+// setting headers in all http request (common == all type of requests)
+export function setJwt(jwt) {
+  axios.defaults.headers.common['x-auth-token'] = jwt;
+}
+
 
 
 axios.interceptors.response.use(null, error => {
@@ -20,5 +25,6 @@ export default{
     post: axios.post,
     delete:axios.delete,
     patch: axios.patch,
-    put: axios.put
+    put: axios.put,
+    setJwt
 }

@@ -9,5 +9,6 @@ import logService from "./services/logService";
 
 logService.init();
 
+console.log(process.env.REACT_APP_NAME)
 
 ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'))

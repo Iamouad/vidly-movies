@@ -28,7 +28,7 @@ class Movies extends Component {
 
      renderMoviesTable = () =>{
 
-        const {movies: allMovies, itemsPerPage, currentPage,onSort, sortColumn} = this.props;
+        const {movies: allMovies, itemsPerPage, currentPage,onSort, sortColumn, user} = this.props;
   
         const filteredMovies = this.filterMovies()
         
@@ -75,7 +75,8 @@ class Movies extends Component {
                 <Like liked={movie.liked} onLike={() => this.props.onLike(movie)}/>
             </td>
             <td>
-                <button onClick={() => this.props.onDelete(movie)} className="btn btn-sm btn-danger">Delete</button>
+
+                {user && user.isAdmin && <button onClick={() => this.props.onDelete(movie)} className="btn btn-sm btn-danger">Delete</button>}
             </td>
             </tr>
             )}

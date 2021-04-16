@@ -91,6 +91,8 @@ class VidlyApp extends Component {
     render() { 
         const {movies, itemsPerPage, currentPage, genres, selectedGenre, sortColumn, searchQuery} = this.state;
         const items = [{"id": "0", "label": "All genres"}, ...genres.map(g => {return {"id": g._id, "label": g.name}})]
+        const user = this.props.user;
+
         return ( 
             <div className="row">
                 <div className="col-3 mt-2">
@@ -100,9 +102,13 @@ class VidlyApp extends Component {
                  />
                 </div>
                 <div className="col">
-                <button className="btn btn-primary mt-2"
-                onClick={() => this.props.history.push("/movie/new")}
-                >New Movie</button>
+                    {
+                        user &&
+                        <button className="btn btn-primary mt-2"
+                        onClick={() => this.props.history.push("/movie/new")}
+                        >New Movie</button>
+                    }
+               
                 <Movies movies={movies}
                  itemsPerPage={itemsPerPage}
                  currentPage={currentPage}
@@ -114,6 +120,7 @@ class VidlyApp extends Component {
                  onSort={this.handleSort}
                  sortColumn={sortColumn}
                  onSearch={this.handleSearch}
+                 user={user}
                  />          
                 </div>
             </div>

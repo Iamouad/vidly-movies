@@ -10,9 +10,10 @@ import MovieForm from './components/vidly/movies/movieForm';
 import LoginForm from './components/auth/loginForm';
 import RegisterForm from "./components/auth/registerForm";
 import Logout from "./components/common/logout";
+import ProtectedRoute from './components/common/protectedRoute';
+import auth from "./services/authService";
 import 'react-toastify/dist/ReactToastify.css'
 import "./App.css";
-import auth from "./services/authService";
 
 
 
@@ -31,33 +32,33 @@ class App extends Component {
   }
 
   render() {
+    const user = this.state.user;
   return (
     <div>
       <ToastContainer />
-      <NavBar user={this.state.user}/>
+      <NavBar user={user}/>
       <div className="content-container">
         <Switch>
-        <Route path="/movie/:id?" component={MovieForm} />
-          <Route path="/movies" component={VidlyApp} />
+        <ProtectedRoute path="/movie/:id?"
+         component={MovieForm}
+          />
+          <Route path="/movies" render={
+            props =>  <VidlyApp {...props} user={user} />
+          } />
           <Route path="/customers" component={Customers} />
           <Route path="/rentals" component={Rentals} />
           <Route path="/login" component={LoginForm} />
           <Route path="/logout" component={Logout} />
           <Route path="/register" component={RegisterForm} />
           <Route path="/not-found" component={NotFound} />
-          <Route path="/" exact component={VidlyApp} />
+          <Redirect path="/" exact to="/movies" />
           <Redirect to="/not-found"/>
 
         </Switch>
       </div>
 
     </div>
-    // <BrowserRouter>
-    // <React.Fragment>
-    // <NavBar />
-    // <VidlyApp />
-    // </React.Fragment>
-    // </BrowserRouter>
+   
   );
   }
 

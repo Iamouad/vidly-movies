@@ -2,6 +2,7 @@ import React from 'react';
 import Form from '../common/form';
 import Joi from 'joi-browser'
 import {toast } from "react-toastify";
+import { Redirect } from 'react-router-dom';
 import * as userService from '../../services/userService';
 import auth from '../../services/authService';
 
@@ -43,6 +44,8 @@ class RegisterForm extends Form {
       
 
     render() { 
+        if(auth.getCurrentUser()) return (<Redirect to="/"/>)
+
         return ( <div className="container">
             <h1>Register</h1>
             <form onSubmit={this.handleSubmit }>

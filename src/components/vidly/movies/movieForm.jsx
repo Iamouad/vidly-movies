@@ -3,6 +3,7 @@ import Joi from "joi-browser";
 import Form from "../../common/form";
 import { getMovie, saveMovie } from "../../../services/movieService";
 import { getGenres } from "../../../services/genreService";
+import { toast } from "react-toastify";
 
 class MovieForm extends Form {
   state = {
@@ -72,8 +73,13 @@ class MovieForm extends Form {
   }
 
   doSubmit = async () => {
-    await saveMovie(this.state.data);
-    this.props.history.push("/movies");
+    try {
+      await saveMovie(this.state.data);
+      this.props.history.push("/movies");
+      
+    } catch (ex) {
+      toast.error(ex.response.message)
+    }
   };
 
   render() {
